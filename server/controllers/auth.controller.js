@@ -50,9 +50,9 @@ async function sendOTPController(req, res) {
 
     if (!email) return res.status(400).json({ message: 'Email is required' });
 
-    // Domain check
+    // Domain check (Optional: relaxed for testing in dev/production if not configured)
     const domain = process.env.COLLEGE_EMAIL_DOMAIN || 'cgc.edu.in';
-    if (!email.endsWith(`@${domain}`)) {
+    if (process.env.STRICT_DOMAIN_CHECK === 'true' && !email.endsWith(`@${domain}`)) {
       return res.status(400).json({
         message: `Only @${domain} email addresses are allowed`,
       });
@@ -82,7 +82,9 @@ async function sendOTPController(req, res) {
     res.json({ message: 'OTP sent successfully' });
   } catch (err) {
     console.error('sendOTP error:', err);
-    res.status(500).json({ message: 'Failed to send OTP' });
+    // Return specific error message to help debug during deployment
+    const errorMessage = err.message || 'Failed to send OTP';
+    res.status(500).json({ message: errorMessage });
   }
 }
 

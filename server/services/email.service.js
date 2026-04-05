@@ -45,7 +45,8 @@ async function sendOTPEmail(to, otp) {
 
   if (error) {
     console.error('Resend error:', error);
-    throw new Error('Failed to send OTP email via Resend');
+    // Return specific error message from Resend for easier debugging
+    throw new Error(error.message || 'Failed to send OTP email via Resend');
   }
 }
 
