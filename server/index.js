@@ -11,6 +11,8 @@ const postRoutes    = require('./routes/post.routes');
 const channelRoutes = require('./routes/channel.routes');
 const adminRoutes   = require('./routes/admin.routes');
 const userRoutes    = require('./routes/user.routes');
+const jobRoutes     = require('./routes/job.routes');
+const mentorshipRoutes = require('./routes/mentorship.routes');
 const setupSocket   = require('./socket/socket');
 
 const app = express();
@@ -42,7 +44,9 @@ app.use('/api/auth',     authRoutes);
 app.use('/api/posts',    postRoutes);
 app.use('/api/channels', channelRoutes);
 app.use('/api/admin',    adminRoutes);
-app.use('/api/users',    userRoutes);
+app.use('/api/users',      userRoutes);
+app.use('/api/jobs',       jobRoutes);
+app.use('/api/mentorship', mentorshipRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

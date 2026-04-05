@@ -1,0 +1,208 @@
+@use '../styles/variables' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+  padding-bottom: $space-12;
+}
+
+.header {
+  @include flex-between;
+  align-items: flex-start;
+}
+
+.heading {
+  font-size: $text-2xl;
+  font-weight: $weight-bold;
+  margin-bottom: $space-1;
+}
+
+.subhead {
+  font-size: $text-sm;
+  color: $color-text-muted;
+}
+
+.loading {
+  color: $color-text-muted;
+  text-align: center;
+  padding: $space-12;
+}
+
+.empty {
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-3;
+  padding: $space-12;
+  border: 2px dashed $color-border;
+  border-radius: $radius-lg;
+  color: $color-text-muted;
+
+  span {
+    font-size: 2.5rem;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $space-4;
+}
+
+.jobCard {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+
+  &:hover {
+    border-color: $color-border-hover;
+  }
+}
+
+.cardHeader {
+  @include flex-between;
+  align-items: flex-start;
+}
+
+.metaInfo {
+  @include flex-start;
+  gap: $space-2;
+  font-size: $text-xs;
+  color: $color-text-muted;
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  color: $color-text-muted;
+  font-size: $text-lg;
+  cursor: pointer;
+  padding: 0 $space-1;
+
+  &:hover {
+    color: $color-error;
+  }
+}
+
+.jobTitle {
+  font-size: $text-lg;
+  font-weight: $weight-bold;
+  color: $color-text;
+}
+
+.jobCompany {
+  font-size: $text-md;
+  color: $color-text-muted;
+  margin-top: -$space-2;
+}
+
+.tags {
+  @include flex-start;
+  gap: $space-2;
+  flex-wrap: wrap;
+}
+
+.description {
+  font-size: $text-sm;
+  color: $color-text;
+  line-height: 1.5;
+  margin: $space-2 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.applyBtn {
+  display: block;
+  text-align: center;
+  background: $color-bg-soft;
+  color: $color-accent;
+  padding: $space-2;
+  border-radius: $radius-md;
+  font-weight: $weight-semibold;
+  text-decoration: none;
+  transition: $transition-fast;
+  margin-top: auto;
+
+  &:hover {
+    background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+  }
+}
+
+/* Modal Styles */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  @include flex-center;
+  z-index: 100;
+  padding: $space-4;
+}
+
+.modal {
+  @include card;
+  width: 100%;
+  max-width: 500px;
+  outline: none;
+  padding: $space-6;
+}
+
+.modalHeader {
+  @include flex-between;
+  margin-bottom: $space-4;
+
+  h3 {
+    font-size: $text-xl;
+    font-weight: $weight-bold;
+  }
+}
+
+.closeModal {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: $color-text-muted;
+  cursor: pointer;
+
+  &:hover {
+    color: $color-text;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-4;
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: $space-3 $space-4;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  background: $color-bg-soft;
+  color: $color-text;
+  font-family: inherit;
+  font-size: $text-sm;
+  transition: $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-accent;
+    background: $color-bg;
+  }
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+}

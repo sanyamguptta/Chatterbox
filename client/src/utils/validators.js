@@ -53,3 +53,18 @@ export function getInitials(name) {
   if (parts.length === 1) return parts[0][0].toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
+
+/**
+ * Normalizes an image URL from the server.
+ * If it's already a full URL (from Cloudinary), returns it as-is.
+ * Otherwise, prepends the base server URL for local file hosting.
+ */
+export function getFullImageUrl(url) {
+  if (!url) return null;
+  if (typeof url !== 'string') return null;
+  if (url.startsWith('http')) return url;
+  
+  const serverUrl = import.meta.env.VITE_SERVER_URL || 'http://localhost:5001';
+  return `${serverUrl}${url.startsWith('/') ? '' : '/'}${url}`;
+}
+

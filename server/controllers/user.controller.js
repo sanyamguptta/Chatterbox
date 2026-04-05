@@ -39,4 +39,25 @@ async function getProfileController(req, res) {
   }
 }
 
-module.exports = { updateProfileController, getProfileController };
+async function updateAvatarController(req, res) {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No image uploaded' });
+    }
+
+    const imageUrl = req.file.path;
+    const userId = req.user.id;
+
+    const result = await pool.query(
+      'UPDATE users SET avatar_url = $1 WHERE id = $2 RETURNING avatar_url',
+      [imageUrl, userId]
+    );
+
+    res.json({ avatar_url: result.rows[0].avatar_url });
+  } catch (err) {
+    console.error('updateAvatar error:', err);
+    res.status(500).json({ message: 'Failed to update avatar' });
+  }
+}
+
+module.exports = { updateProfileController, getProfileController, updateAvatarController };

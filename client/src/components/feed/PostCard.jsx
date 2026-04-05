@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Avatar from '../ui/Avatar';
 import Badge from '../ui/Badge';
-import { timeAgo } from '../../utils/validators';
+import { timeAgo, getFullImageUrl } from '../../utils/validators';
 import { useAuth } from '../../hooks/useAuth';
 import api from '../../api/axios';
 import styles from './PostCard.module.scss';
@@ -39,7 +39,7 @@ export default function PostCard({ post, onDelete, onCommentOpen }) {
     <article className={styles.card}>
       {/* Header */}
       <div className={styles.header}>
-        <Avatar name={post.display_name} src={post.avatar_url} size="md" />
+        <Avatar name={post.display_name} src={getFullImageUrl(post.avatar_url)} size="md" />
         <div className={styles.meta}>
           <span className={styles.name}>{post.display_name}</span>
           <div className={styles.metaRow}>
@@ -64,7 +64,7 @@ export default function PostCard({ post, onDelete, onCommentOpen }) {
         <p className={styles.text}>{post.content}</p>
         {post.image_url && (
           <img
-            src={`${import.meta.env.VITE_SERVER_URL || 'http://localhost:5001'}${post.image_url}`}
+            src={getFullImageUrl(post.image_url)}
             alt="Post attachment"
             className={styles.image}
           />

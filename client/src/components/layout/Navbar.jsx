@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useSocket } from '../../hooks/useSocket';
 import Avatar from '../ui/Avatar';
+import { getFullImageUrl } from '../../utils/validators';
 import ThemeSelector from './ThemeSelector';
 import styles from './Navbar.module.scss';
 
@@ -30,7 +31,7 @@ export default function Navbar() {
           <div className={styles.right}>
             <ThemeSelector />
             <div className={styles.userInfo}>
-              <Avatar name={user.display_name} src={user.avatar_url} size="sm" />
+              <Avatar name={user.display_name} src={getFullImageUrl(user.avatar_url)} size="sm" />
               <span className={styles.userName}>{user.display_name}</span>
             </div>
             <button

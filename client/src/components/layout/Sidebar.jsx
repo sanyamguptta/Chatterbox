@@ -6,6 +6,8 @@ const navItems = [
   { to: '/feed',     icon: '📰', label: 'Feed' },
   { to: '/channels', icon: '💬', label: 'Channels' },
   { to: '/roadmap',  icon: '🗺️', label: 'Roadmap' },
+  { to: '/jobs',     icon: '💼', label: 'Jobs' },
+  { to: '/alumni',   icon: '🎓', label: 'Alumni' },
   { to: '/profile',  icon: '👤', label: 'Profile' },
 ];
 

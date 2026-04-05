@@ -9,6 +9,7 @@ $color-bg-soft:     var(--color-bg-soft);
 $color-bg-muted:    var(--color-bg-muted);
 $color-border:      var(--color-border);
 $color-border-dark: var(--color-border-dark);
+$color-border-hover: var(--color-border-hover, color-mix(in srgb, var(--color-border) 70%, var(--color-text) 30%));
 
 $color-text:        var(--color-text);
 $color-text-muted:  var(--color-text-muted);

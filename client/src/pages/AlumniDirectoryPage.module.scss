@@ -1,0 +1,161 @@
+@use '../styles/variables' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+  padding-bottom: $space-12;
+}
+
+.header {
+  @include flex-between;
+  align-items: flex-start;
+}
+
+.heading {
+  font-size: $text-2xl;
+  font-weight: $weight-bold;
+  margin-bottom: $space-1;
+}
+
+.subhead {
+  font-size: $text-sm;
+  color: $color-text-muted;
+}
+
+.loading {
+  color: $color-text-muted;
+  text-align: center;
+  padding: $space-12;
+}
+
+.empty {
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-3;
+  padding: $space-12;
+  border: 2px dashed $color-border;
+  border-radius: $radius-lg;
+  color: $color-text-muted;
+
+  span {
+    font-size: 2.5rem;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $space-4;
+}
+
+.alumCard {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+
+  &:hover {
+    border-color: $color-border-hover;
+  }
+}
+
+.alumHeader {
+  @include flex-start;
+  gap: $space-3;
+}
+
+.name {
+  font-size: $text-lg;
+  font-weight: $weight-bold;
+  color: $color-text;
+  margin-bottom: $space-1;
+}
+
+.bio {
+  font-size: $text-sm;
+  color: $color-text;
+  line-height: 1.5;
+  background: $color-bg-soft;
+  padding: $space-3;
+  border-radius: $radius-md;
+  flex-grow: 1;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Modal Styles */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  @include flex-center;
+  z-index: 100;
+  padding: $space-4;
+}
+
+.modal {
+  @include card;
+  width: 100%;
+  max-width: 500px;
+  outline: none;
+  padding: $space-6;
+}
+
+.modalHeader {
+  @include flex-between;
+  margin-bottom: $space-2;
+
+  h3 {
+    font-size: $text-xl;
+    font-weight: $weight-bold;
+  }
+}
+
+.modalSubhead {
+  font-size: $text-sm;
+  color: $color-text-muted;
+  margin-bottom: $space-4;
+}
+
+.closeModal {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: $color-text-muted;
+  cursor: pointer;
+
+  &:hover {
+    color: $color-text;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.textarea {
+  width: 100%;
+  padding: $space-3 $space-4;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  background: $color-bg-soft;
+  color: $color-text;
+  font-family: inherit;
+  font-size: $text-sm;
+  transition: $transition-fast;
+  resize: vertical;
+  min-height: 100px;
+
+  &:focus {
+    outline: none;
+    border-color: $color-accent;
+    background: $color-bg;
+  }
+}

@@ -55,7 +55,7 @@ async function getFeedController(req, res) {
 async function createPostController(req, res) {
   try {
     const { content, tags } = req.body;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+    const imageUrl = req.file ? req.file.path : null;
 
     if (!content || content.trim().length === 0) {
       return res.status(400).json({ message: 'Post content is required' });

@@ -59,23 +59,14 @@ async function sendOTPController(req, res) {
     }
 
     if (purpose === 'signup') {
-      // Check student exists in master list
-      const studentResult = await pool.query(
-        'SELECT * FROM students WHERE email = $1',
-        [email]
-      );
-      if (studentResult.rows.length === 0) {
-        return res.status(403).json({
-          message: 'This email is not in our student list. Contact admin.',
-        });
-      }
-
-      // Check not already registered
-      if (studentResult.rows[0].is_registered) {
+      // Check if user already exists in users table
+      const userRes = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+      if (userRes.rows.length > 0) {
         return res.status(409).json({
           message: 'An account with this email already exists. Please log in.',
         });
       }
+
     } else if (purpose === 'login') {
       // For login, user must already have an account
       const userResult = await pool.query(
@@ -168,36 +159,17 @@ async function verifyRollController(req, res) {
       return res.status(401).json({ message: 'Invalid OTP session' });
     }
 
-    // Check roll number matches the student with this email
-    const result = await pool.query(
-      'SELECT * FROM students WHERE roll_no = $1',
-      [rollNo]
-    );
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Roll number not found in student records' });
-    }
-
-    const student = result.rows[0];
-
-    if (student.email !== email) {
-      return res.status(403).json({
-        message: 'This roll number does not match your email address',
-      });
-    }
-
-    if (student.is_registered) {
+    // Auto-approve the roll number regardless of pre-seeding
+    // We will capture it here and let them proceed
+    const result = await pool.query('SELECT * FROM students WHERE roll_no = $1', [rollNo]);
+    
+    if (result.rows.length > 0 && result.rows[0].is_registered) {
       return res.status(409).json({ message: 'This roll number is already registered' });
     }
 
     res.json({
-      message: 'Roll number verified',
-      student: {
-        name: student.name,
-        branch: student.branch,
-        year: student.year,
-        rollNo: student.roll_no,
-      },
+      message: 'Roll number accepted',
+      student: { name: 'Student', branch: 'TBD', year: 1, rollNo },
     });
   } catch (err) {
     console.error('verifyRoll error:', err);
@@ -231,22 +203,6 @@ async function registerController(req, res) {
       return res.status(401).json({ message: 'Invalid session' });
     }
 
-    // Final check: student exists and not registered
-    const studentResult = await pool.query(
-      'SELECT * FROM students WHERE email = $1 AND roll_no = $2',
-      [email, rollNo]
-    );
-
-    if (studentResult.rows.length === 0) {
-      return res.status(403).json({ message: 'Student not found. Verification failed.' });
-    }
-
-    const student = studentResult.rows[0];
-
-    if (student.is_registered) {
-      return res.status(409).json({ message: 'Account already exists for this student' });
-    }
-
     // Hash password
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
@@ -255,25 +211,35 @@ async function registerController(req, res) {
     try {
       await client.query('BEGIN');
 
+      let studentId;
+      const studentRes = await client.query('SELECT id FROM students WHERE email = $1', [email]);
+      
+      if (studentRes.rows.length === 0) {
+        const newStudent = await client.query(
+          `INSERT INTO students (roll_no, name, email, branch, year, is_registered) 
+           VALUES ($1, $2, $3, 'TBD', 1, TRUE) RETURNING id`,
+          [rollNo, displayName, email]
+        );
+        studentId = newStudent.rows[0].id;
+      } else {
+        studentId = studentRes.rows[0].id;
+        await client.query('UPDATE students SET is_registered = TRUE WHERE id = $1', [studentId]);
+      }
+
       const userResult = await client.query(
         `INSERT INTO users (student_id, roll_no, email, password_hash, display_name, is_approved)
-         VALUES ($1, $2, $3, $4, $5, FALSE)
+         VALUES ($1, $2, $3, $4, $5, TRUE)
          RETURNING id, role`,
-        [student.id, rollNo, email, passwordHash, displayName || student.name]
-      );
-
-      await client.query(
-        'UPDATE students SET is_registered = TRUE WHERE id = $1',
-        [student.id]
+        [studentId, rollNo, email, passwordHash, displayName]
       );
 
       await client.query('COMMIT');
 
-      // Send welcome email (non-blocking — don't fail registration if email fails)
-      sendWelcomeEmail(email, displayName || student.name).catch(console.error);
+      // Send welcome email (non-blocking)
+      sendWelcomeEmail(email, displayName).catch(console.error);
 
       res.status(201).json({
-        message: 'Account created. Awaiting admin approval.',
+        message: 'Account created and automatically approved!',
         userId: userResult.rows[0].id,
       });
     } catch (txErr) {

@@ -6,6 +6,8 @@ import ChannelsPage from './pages/ChannelsPage';
 import RoadmapPage from './pages/RoadmapPage';
 import ProfilePage from './pages/ProfilePage';
 import AdminPage from './pages/AdminPage';
+import JobBoardPage from './pages/JobBoardPage';
+import AlumniDirectoryPage from './pages/AlumniDirectoryPage';
 
 // Protected route wrapper — redirects to /auth if not logged in
 function ProtectedRoute({ children }) {
@@ -61,6 +63,16 @@ function AppRoutes() {
       <Route path="/roadmap" element={
         <ProtectedRoute>
           <RoadmapPage />
+        </ProtectedRoute>
+      } />
+      <Route path="/jobs" element={
+        <ProtectedRoute>
+          <JobBoardPage />
+        </ProtectedRoute>
+      } />
+      <Route path="/alumni" element={
+        <ProtectedRoute>
+          <AlumniDirectoryPage />
         </ProtectedRoute>
       } />
       <Route path="/profile" element={

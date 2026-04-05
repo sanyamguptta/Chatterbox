@@ -125,3 +125,33 @@ CREATE INDEX IF NOT EXISTS idx_posts_created ON posts(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_comments_post ON comments(post_id);
 CREATE INDEX IF NOT EXISTS idx_messages_chan ON messages(channel_id);
 CREATE INDEX IF NOT EXISTS idx_otp_email     ON otp_store(email);
+
+-- ============================================================
+-- Phase 3: Alumni & Jobs
+-- ============================================================
+
+-- Jobs / Internships Board
+CREATE TABLE IF NOT EXISTS jobs (
+  id          SERIAL PRIMARY KEY,
+  user_id     INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  title       VARCHAR(150) NOT NULL,
+  company     VARCHAR(100) NOT NULL,
+  type        VARCHAR(50) NOT NULL, -- 'Full-time' | 'Internship' | 'Contract'
+  location    VARCHAR(100),
+  description TEXT,
+  apply_link  VARCHAR(255),
+  created_at  TIMESTAMP DEFAULT NOW()
+);
+
+-- Alumni Mentorship Requests
+CREATE TABLE IF NOT EXISTS mentorship_requests (
+  id         SERIAL PRIMARY KEY,
+  student_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  alumni_id  INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  message    TEXT,
+  status     VARCHAR(20) DEFAULT 'pending', -- 'pending' | 'accepted' | 'rejected'
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_jobs_created ON jobs(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_mentorship_alumni ON mentorship_requests(alumni_id);
