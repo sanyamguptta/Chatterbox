@@ -2,6 +2,7 @@ const { Pool } = require('pg');
 require('dotenv').config();
 
 // Connection pool — reuses connections, much more efficient than single client
+// family: 4 forces IPv4 — fixes ENETUNREACH on Render's free tier with Supabase
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   max: 20,
@@ -10,6 +11,7 @@ const pool = new Pool({
   ssl: process.env.NODE_ENV === 'production'
     ? { rejectUnauthorized: false }
     : false,
+  family: 4, // Force IPv4 — prevents IPv6 connectivity issues on Render
 });
 
 // Test connection on startup
