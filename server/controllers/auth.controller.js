@@ -159,17 +159,37 @@ async function verifyRollController(req, res) {
       return res.status(401).json({ message: 'Invalid OTP session' });
     }
 
-    // Auto-approve the roll number regardless of pre-seeding
-    // We will capture it here and let them proceed
     const result = await pool.query('SELECT * FROM students WHERE roll_no = $1', [rollNo]);
-    
-    if (result.rows.length > 0 && result.rows[0].is_registered) {
-      return res.status(409).json({ message: 'This roll number is already registered' });
+
+    // Roll number must exist in the seeded students table
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        message: 'Roll number not found. Please ensure you are a registered student of this college.',
+      });
+    }
+
+    const student = result.rows[0];
+
+    // Email must match the student record in DB
+    if (student.email.toLowerCase() !== email.toLowerCase()) {
+      return res.status(403).json({
+        message: 'This roll number does not match your email address.',
+      });
+    }
+
+    // Block duplicate registrations
+    if (student.is_registered) {
+      return res.status(409).json({ message: 'This roll number is already registered.' });
     }
 
     res.json({
-      message: 'Roll number accepted',
-      student: { name: 'Student', branch: 'TBD', year: 1, rollNo },
+      message: 'Roll number verified',
+      student: {
+        name: student.name,
+        branch: student.branch,
+        year: student.year,
+        rollNo: student.roll_no,
+      },
     });
   } catch (err) {
     console.error('verifyRoll error:', err);
@@ -228,7 +248,7 @@ async function registerController(req, res) {
 
       const userResult = await client.query(
         `INSERT INTO users (student_id, roll_no, email, password_hash, display_name, is_approved)
-         VALUES ($1, $2, $3, $4, $5, TRUE)
+         VALUES ($1, $2, $3, $4, $5, FALSE)
          RETURNING id, role`,
         [studentId, rollNo, email, passwordHash, displayName]
       );
@@ -239,7 +259,7 @@ async function registerController(req, res) {
       sendWelcomeEmail(email, displayName).catch(console.error);
 
       res.status(201).json({
-        message: 'Account created and automatically approved!',
+        message: 'Account created successfully! You will be notified once an admin approves your account.',
         userId: userResult.rows[0].id,
       });
     } catch (txErr) {

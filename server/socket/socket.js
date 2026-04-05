@@ -1,5 +1,6 @@
 const pool = require('../config/db');
 const jwt = require('jsonwebtoken');
+const xss = require('xss');
 
 /**
  * Socket.io handler for real-time channel messaging.
@@ -77,7 +78,7 @@ function setupSocket(io) {
           `INSERT INTO messages (channel_id, user_id, content)
            VALUES ($1, $2, $3)
            RETURNING id, content, created_at`,
-          [channelId, socket.user.id, content.trim()]
+          [channelId, socket.user.id, xss(content.trim())]
         );
 
         const message = {

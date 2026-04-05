@@ -5,6 +5,7 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const helmet = require('helmet');
 
 const authRoutes    = require('./routes/auth.routes');
 const postRoutes    = require('./routes/post.routes');
@@ -28,6 +29,11 @@ const io = new Server(server, {
 setupSocket(io);
 
 // ─── Global middleware ────────────────────────────────────────────────────────
+// Security headers — must be first
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' }, // allow Cloudinary images to load
+}));
+
 app.use(cors({
   origin: process.env.CLIENT_URL || 'http://localhost:5173',
   credentials: true, // required for httpOnly cookie to be sent
@@ -36,8 +42,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); // required to read refresh token cookie
 
-// Serve uploaded files as static assets
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
 app.use('/api/auth',     authRoutes);
@@ -64,8 +69,20 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Internal server error' });
 });
 
+// ─── Cleanup job: delete expired OTPs and refresh tokens every 6 hours ───────
+const pool = require('./config/db');
+setInterval(async () => {
+  try {
+    const otpResult = await pool.query('DELETE FROM otp_store WHERE expires_at < NOW()');
+    const tokenResult = await pool.query('DELETE FROM refresh_tokens WHERE expires_at < NOW()');
+    console.log(`🧹 Cleanup: removed ${otpResult.rowCount} expired OTPs, ${tokenResult.rowCount} expired tokens`);
+  } catch (err) {
+    console.error('Cleanup job error:', err);
+  }
+}, 6 * 60 * 60 * 1000);
+
 // ─── Start server ─────────────────────────────────────────────────────────────
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 server.listen(PORT, () => {
   console.log(`\n🚀 Chatterbox server running on http://localhost:${PORT}`);
   console.log(`   Environment: ${process.env.NODE_ENV || 'development'}`);

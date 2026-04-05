@@ -3,4 +3,3 @@ server/.env
 client/.env
 server/uploads/
 node_modules/
-/.readme

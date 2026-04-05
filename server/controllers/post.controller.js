@@ -1,4 +1,5 @@
 const pool = require('../config/db');
+const xss = require('xss');
 
 // ─── Get paginated feed ───────────────────────────────────────────────────────
 
@@ -76,11 +77,11 @@ async function createPostController(req, res) {
     }
 
     const result = await pool.query(
-      `INSERT INTO posts (user_id, content, image_url, tags)
-       VALUES ($1, $2, $3, $4)
-       RETURNING id, content, image_url, tags, like_count, created_at`,
-      [req.user.id, content.trim(), imageUrl, tagsArray]
-    );
+  `INSERT INTO posts (user_id, content, image_url, tags)
+   VALUES ($1, $2, $3, $4)
+   RETURNING id, content, image_url, tags, like_count, created_at`,
+  [req.user.id, xss(content.trim()), imageUrl, tagsArray]
+);
 
     res.status(201).json({ post: result.rows[0] });
   } catch (err) {
@@ -218,7 +219,7 @@ async function addCommentController(req, res) {
       `INSERT INTO comments (post_id, user_id, content)
        VALUES ($1, $2, $3)
        RETURNING id, content, created_at`,
-      [id, req.user.id, content.trim()]
+      [id, req.user.id, xss(content.trim())]
     );
 
     res.status(201).json({
