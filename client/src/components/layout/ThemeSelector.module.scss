@@ -1,0 +1,82 @@
+@use '../../styles/variables' as *;
+
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.toggleBtn {
+  background: transparent;
+  border: 1px solid $color-border;
+  border-radius: $radius-full;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: $transition-fast;
+  color: $color-text;
+
+  &:hover {
+    background: $color-bg-muted;
+    border-color: $color-border-dark;
+  }
+}
+
+.icon {
+  font-size: 16px;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: $space-2;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  box-shadow: $shadow-lg;
+  padding: $space-2;
+  min-width: 140px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-2 $space-3;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-radius: $radius-sm;
+  color: $color-text;
+  font-size: $text-sm;
+  cursor: pointer;
+  transition: $transition-fast;
+
+  &:hover {
+    background: $color-bg-muted;
+  }
+
+  &.active {
+    background: $color-accent-soft;
+    color: $color-accent;
+  }
+}
+
+.itemIcon {
+  font-size: 14px;
+}

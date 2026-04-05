@@ -1,0 +1,111 @@
+@use '../styles/variables' as *;
+
+.page {
+  max-width: $content-max-width;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+}
+
+.profileCard {
+  @include card;
+  padding: $space-8;
+  display: flex;
+  gap: $space-6;
+  align-items: flex-start;
+
+  @include responsive(sm) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.avatarWrap {
+  flex-shrink: 0;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  flex: 1;
+}
+
+.name {
+  font-size: $text-xl;
+  font-weight: $weight-bold;
+  color: $color-text;
+}
+
+.badges {
+  @include flex-start;
+  gap: $space-2;
+  flex-wrap: wrap;
+}
+
+.bio {
+  font-size: $text-sm;
+  color: $color-text-muted;
+  line-height: 1.7;
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  flex: 1;
+}
+
+.bioField {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.bioLabel {
+  font-size: $text-sm;
+  font-weight: $weight-medium;
+  color: $color-text;
+}
+
+.bioTextarea {
+  @include input-base;
+  resize: vertical;
+  min-height: 80px;
+  font-size: $text-sm;
+}
+
+.editActions {
+  @include flex-start;
+  gap: $space-3;
+}
+
+.error {
+  font-size: $text-xs;
+  color: $color-error;
+}
+
+.postsSection {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.postsHeading {
+  font-size: $text-lg;
+  font-weight: $weight-semibold;
+  color: $color-text;
+}
+
+.postList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.muted {
+  font-size: $text-sm;
+  color: $color-text-muted;
+}

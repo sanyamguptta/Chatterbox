@@ -1,0 +1,79 @@
+@use '../../styles/variables' as *;
+
+.list {
+  width: 220px;
+  flex-shrink: 0;
+  border-right: 1px solid $color-border;
+  padding: $space-4 $space-2;
+  height: calc(100vh - #{$navbar-height} - #{$space-12});
+  overflow-y: auto;
+
+  @include responsive(md) {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid $color-border;
+  }
+}
+
+.heading {
+  font-size: $text-xs;
+  font-weight: $weight-semibold;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0 $space-3 $space-3;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-2;
+  width: 100%;
+  padding: $space-3;
+  background: none;
+  border: none;
+  border-radius: $radius-md;
+  cursor: pointer;
+  text-align: left;
+  transition: $transition-fast;
+  font-family: $font-sans;
+
+  &:hover {
+    background: $color-bg-muted;
+  }
+
+  &.active {
+    background: $color-accent-soft;
+
+    .name { color: $color-accent-dark; }
+    .hash { color: $color-accent; }
+  }
+}
+
+.hash {
+  font-weight: $weight-bold;
+  color: $color-text-muted;
+  font-size: $text-base;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.name {
+  font-size: $text-sm;
+  font-weight: $weight-medium;
+  color: $color-text;
+  @include truncate;
+}
+
+.desc {
+  font-size: $text-xs;
+  color: $color-text-muted;
+  @include truncate;
+}

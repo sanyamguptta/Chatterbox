@@ -1,0 +1,79 @@
+@use '../../styles/variables' as *;
+
+.sidebar {
+  width: $sidebar-width;
+  height: calc(100vh - $navbar-height);
+  position: sticky;
+  top: $navbar-height;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid $color-border;
+  padding: $space-4 0;
+  background: $color-bg;
+  flex-shrink: 0;
+
+  @include responsive(md) {
+    display: none; // hidden on mobile
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  padding: 0 $space-3;
+}
+
+.navItem {
+  @include flex-start;
+  gap: $space-3;
+  padding: $space-3 $space-4;
+  border-radius: $radius-md;
+  color: $color-text-muted;
+  font-size: $text-sm;
+  font-weight: $weight-medium;
+  transition: $transition-fast;
+  text-decoration: none;
+
+  &:hover {
+    background: $color-bg-muted;
+    color: $color-text;
+  }
+
+  &.active {
+    background: $color-accent-soft;
+    color: $color-accent;
+    font-weight: $weight-semibold;
+  }
+}
+
+.icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+
+.label { @include truncate; }
+
+.footer {
+  padding: $space-4 $space-5;
+  border-top: 1px solid $color-border;
+}
+
+.collegeBadge {
+  @include flex-start;
+  gap: $space-2;
+  font-size: $text-xs;
+  color: $color-text-muted;
+  font-weight: $weight-medium;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: $color-accent;
+  flex-shrink: 0;
+}

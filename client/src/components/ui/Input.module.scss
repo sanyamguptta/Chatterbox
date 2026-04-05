@@ -1,0 +1,36 @@
+@use '../../styles/variables' as *;
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.label {
+  font-size: $text-sm;
+  font-weight: $weight-medium;
+  color: $color-text;
+}
+
+.input {
+  @include input-base;
+
+  &.hasError {
+    border-color: $color-error;
+    &:focus {
+      border-color: $color-error;
+      box-shadow: 0 0 0 3px color-mix(in srgb, $color-error 12%, transparent);
+    }
+  }
+}
+
+.error {
+  font-size: $text-xs;
+  color: $color-error;
+  font-weight: $weight-medium;
+}
+
+.hint {
+  font-size: $text-xs;
+  color: $color-text-muted;
+}

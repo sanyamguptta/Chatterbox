@@ -1,0 +1,72 @@
+@use '../../styles/variables' as *;
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: $navbar-height;
+  background: color-mix(in srgb, $color-bg 95%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid $color-border;
+}
+
+.inner {
+  @include flex-between;
+  height: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 $space-6;
+}
+
+.logo {
+  @include flex-start;
+  gap: $space-2;
+  cursor: pointer;
+  user-select: none;
+}
+
+.logoIcon {
+  font-size: 1.3rem;
+}
+
+.logoText {
+  font-size: $text-md;
+  font-weight: $weight-bold;
+  color: $color-text;
+  letter-spacing: -0.02em;
+}
+
+.right {
+  @include flex-start;
+  gap: $space-4;
+}
+
+.userInfo {
+  @include flex-start;
+  gap: $space-2;
+}
+
+.userName {
+  font-size: $text-sm;
+  font-weight: $weight-medium;
+  color: $color-text;
+
+  @include responsive(sm) { display: none; }
+}
+
+.logoutBtn {
+  font-size: $text-sm;
+  font-weight: $weight-medium;
+  color: $color-text-muted;
+  background: none;
+  border: none;
+  padding: $space-2 $space-3;
+  border-radius: $radius-md;
+  transition: $transition-fast;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-bg-muted;
+    color: $color-text;
+  }
+}

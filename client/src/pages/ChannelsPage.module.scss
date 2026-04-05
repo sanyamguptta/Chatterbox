@@ -1,0 +1,29 @@
+@use '../styles/variables' as *;
+
+.heading {
+  font-size: $text-xl;
+  font-weight: $weight-bold;
+  margin-bottom: $space-5;
+}
+
+.layout {
+  @include card;
+  display: flex;
+  overflow: hidden;
+
+  @include responsive(md) {
+    flex-direction: column;
+  }
+}
+
+.chat {
+  flex: 1;
+  min-width: 0;
+}
+
+.loading {
+  @include flex-center;
+  height: 200px;
+  color: $color-text-muted;
+  font-size: $text-sm;
+}

@@ -1,0 +1,118 @@
+@use '../../styles/variables' as *;
+
+.card {
+  @include card;
+  padding: $space-5;
+  transition: $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+}
+
+.header {
+  @include flex-between;
+  align-items: flex-start;
+  margin-bottom: $space-4;
+}
+
+.meta {
+  flex: 1;
+  margin-left: $space-3;
+  min-width: 0;
+}
+
+.name {
+  font-weight: $weight-semibold;
+  font-size: $text-sm;
+  color: $color-text;
+  display: block;
+  margin-bottom: $space-1;
+}
+
+.metaRow {
+  @include flex-start;
+  gap: $space-2;
+  flex-wrap: wrap;
+}
+
+.time {
+  font-size: $text-xs;
+  color: $color-text-light;
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  font-size: $text-sm;
+  color: $color-text-light;
+  cursor: pointer;
+  padding: $space-1 $space-2;
+  border-radius: $radius-sm;
+  transition: $transition-fast;
+  flex-shrink: 0;
+  line-height: 1;
+
+  &:hover {
+    background: $color-error-soft;
+    color: $color-error;
+  }
+}
+
+.content {
+  margin-bottom: $space-4;
+}
+
+.text {
+  font-size: $text-sm;
+  color: $color-text;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.image {
+  margin-top: $space-4;
+  border-radius: $radius-md;
+  max-height: 400px;
+  width: 100%;
+  object-fit: cover;
+  border: 1px solid $color-border;
+}
+
+.tags {
+  @include flex-start;
+  gap: $space-2;
+  flex-wrap: wrap;
+  margin-bottom: $space-4;
+}
+
+.actions {
+  @include flex-start;
+  gap: $space-4;
+  padding-top: $space-3;
+  border-top: 1px solid $color-border;
+}
+
+.actionBtn {
+  @include flex-start;
+  gap: $space-1;
+  background: none;
+  border: none;
+  font-size: $text-sm;
+  color: $color-text-muted;
+  cursor: pointer;
+  padding: $space-2 $space-3;
+  border-radius: $radius-md;
+  transition: $transition-fast;
+  font-family: $font-sans;
+
+  &:hover:not(:disabled) {
+    background: $color-bg-muted;
+    color: $color-text;
+  }
+
+  &.liked {
+    color: #e53e3e;
+  }
+}

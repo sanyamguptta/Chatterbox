@@ -1,0 +1,60 @@
+@use '../../styles/variables' as *;
+
+.btn {
+  @include btn-base;
+
+  &.sm   { padding: $space-2 $space-3; font-size: $text-xs; }
+  &.md   { padding: $space-3 $space-5; font-size: $text-sm; }
+  &.lg   { padding: $space-4 $space-6; font-size: $text-base; }
+
+  &.primary {
+    background: $color-accent;
+    color: #fff;
+    &:hover:not(:disabled) {
+      background: $color-accent-dark;
+      transform: translateY(-1px);
+      box-shadow: $shadow-md;
+    }
+    &:active:not(:disabled) { transform: translateY(0); }
+  }
+
+  &.outline {
+    background: transparent;
+    color: $color-accent;
+    border: 1.5px solid $color-accent;
+    &:hover:not(:disabled) {
+      background: $color-accent-soft;
+    }
+  }
+
+  &.ghost {
+    background: transparent;
+    color: $color-text-muted;
+    &:hover:not(:disabled) {
+      background: $color-bg-muted;
+      color: $color-text;
+    }
+  }
+
+  &.danger {
+    background: $color-error;
+    color: #fff;
+    &:hover:not(:disabled) {
+      background: #c0392b; // darker danger — replaces deprecated darken()
+    }
+  }
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

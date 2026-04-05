@@ -1,0 +1,26 @@
+@use '../../styles/variables' as *;
+
+.root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.body {
+  @include flex-start;
+  flex: 1;
+  align-items: flex-start;
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.main {
+  flex: 1;
+  padding: $space-6 $space-6;
+  min-width: 0; // prevent flex overflow
+
+  @include responsive(md) {
+    padding: $space-4;
+  }
+}

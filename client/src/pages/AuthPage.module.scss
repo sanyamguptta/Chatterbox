@@ -1,0 +1,131 @@
+@use '../styles/variables' as *;
+
+.page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0fdf8 0%, #ffffff 60%);
+  @include flex-center;
+  padding: $space-6 $space-4;
+}
+
+.card {
+  @include card;
+  width: 100%;
+  max-width: 440px;
+  padding: $space-8;
+  box-shadow: $shadow-xl;
+
+  @include responsive(sm) {
+    padding: $space-6 $space-5;
+  }
+}
+
+// ── Brand ────────────────────────────────────────────────────────
+.brand {
+  text-align: center;
+  margin-bottom: $space-6;
+}
+
+.brandIcon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: $space-2;
+}
+
+.brandName {
+  font-size: $text-2xl;
+  font-weight: $weight-bold;
+  letter-spacing: -0.03em;
+  color: $color-text;
+  margin-bottom: $space-1;
+}
+
+.brandTag {
+  font-size: $text-xs;
+  color: $color-text-muted;
+  font-weight: $weight-medium;
+}
+
+// ── Mode tabs ────────────────────────────────────────────────────
+.modeTabs {
+  display: flex;
+  background: $color-bg-muted;
+  border-radius: $radius-md;
+  padding: 3px;
+  margin-bottom: $space-6;
+}
+
+.modeTab {
+  flex: 1;
+  padding: $space-2 $space-4;
+  background: none;
+  border: none;
+  border-radius: calc(#{$radius-md} - 2px);
+  font-size: $text-sm;
+  font-weight: $weight-medium;
+  color: $color-text-muted;
+  cursor: pointer;
+  transition: $transition-base;
+  font-family: $font-sans;
+
+  &.activeTab {
+    background: $color-bg;
+    color: $color-text;
+    box-shadow: $shadow-sm;
+  }
+}
+
+// ── Progress ──────────────────────────────────────────────────────
+.progressWrap {
+  height: 3px;
+  background: $color-border;
+  border-radius: $radius-full;
+  margin-bottom: $space-6;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: $color-accent;
+  border-radius: $radius-full;
+  transition: width 0.3s ease;
+}
+
+// ── Step area ─────────────────────────────────────────────────────
+.stepArea {
+  animation: fadeIn 0.2s ease;
+}
+
+// ── Success state ─────────────────────────────────────────────────
+.successIcon {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: $space-4;
+}
+
+.successTitle {
+  font-size: $text-xl;
+  font-weight: $weight-bold;
+  text-align: center;
+  margin-bottom: $space-3;
+}
+
+.successDesc {
+  font-size: $text-sm;
+  color: $color-text-muted;
+  text-align: center;
+  line-height: 1.7;
+  margin-bottom: $space-6;
+}
+
+.switchBtn {
+  @include btn-base;
+  width: 100%;
+  background: $color-accent;
+  color: #fff;
+  &:hover { background: $color-accent-dark; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

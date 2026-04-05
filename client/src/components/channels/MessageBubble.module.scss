@@ -1,0 +1,54 @@
+@use '../../styles/variables' as *;
+
+.bubble {
+  @include flex-start;
+  align-items: flex-start;
+  gap: $space-2;
+  margin-bottom: $space-3;
+
+  &.own {
+    flex-direction: row-reverse;
+  }
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+  min-width: 0;
+}
+
+.sender {
+  font-size: $text-xs;
+  font-weight: $weight-semibold;
+  color: $color-text-muted;
+  margin-bottom: $space-1;
+}
+
+.content {
+  background: $color-bg-muted;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  border-top-left-radius: $radius-sm;
+  padding: $space-3 $space-4;
+  font-size: $text-sm;
+  color: $color-text;
+  line-height: 1.6;
+  word-break: break-word;
+  white-space: pre-wrap;
+
+  &.ownContent {
+    background: $color-accent;
+    border-color: $color-accent;
+    color: #fff;
+    border-radius: $radius-lg;
+    border-top-right-radius: $radius-sm;
+  }
+}
+
+.time {
+  font-size: $text-xs;
+  color: $color-text-light;
+  margin-top: $space-1;
+  align-self: flex-end;
+}

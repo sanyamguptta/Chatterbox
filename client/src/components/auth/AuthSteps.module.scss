@@ -1,0 +1,221 @@
+@use '../../styles/variables' as *;
+
+// Shared styles for all auth step components
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+  width: 100%;
+}
+
+// ── Step header ───────────────────────────────────────────────────
+.stepHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  margin-bottom: $space-2;
+}
+
+.stepNumber {
+  font-size: $text-xs;
+  font-weight: $weight-semibold;
+  color: $color-accent;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stepTitle {
+  font-size: $text-xl;
+  font-weight: $weight-bold;
+  color: $color-text;
+  line-height: 1.2;
+}
+
+.stepDesc {
+  font-size: $text-sm;
+  color: $color-text-muted;
+  line-height: 1.6;
+}
+
+.studentConfirm {
+  padding: $space-3 $space-4;
+  background: $color-accent-soft;
+  border: 1px solid color-mix(in srgb, $color-accent 25%, transparent);
+  border-radius: $radius-md;
+  font-size: $text-sm;
+  color: $color-text;
+}
+
+// ── OTP boxes ─────────────────────────────────────────────────────
+.otpRow {
+  display: flex;
+  gap: $space-3;
+  justify-content: center;
+}
+
+.otpInput {
+  width: 48px;
+  height: 56px;
+  text-align: center;
+  font-size: $text-xl;
+  font-weight: $weight-bold;
+  border: 2px solid $color-border;
+  border-radius: $radius-md;
+  background: $color-bg;
+  color: $color-text;
+  outline: none;
+  transition: $transition-base;
+  font-family: $font-mono;
+
+  &:focus {
+    border-color: $color-accent;
+    box-shadow: 0 0 0 3px $color-accent-glow;
+  }
+
+  &.otpError {
+    border-color: $color-error;
+    animation: shake 0.3s ease;
+  }
+
+  @include responsive(sm) {
+    width: 40px;
+    height: 48px;
+    font-size: $text-md;
+  }
+}
+
+// ── Scan step ─────────────────────────────────────────────────────
+.scanOptions {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  align-items: center;
+}
+
+.scanBtn {
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-2;
+  width: 100%;
+  padding: $space-8;
+  border: 2px dashed $color-border;
+  border-radius: $radius-lg;
+  background: $color-bg-soft;
+  cursor: pointer;
+  transition: $transition-base;
+  font-family: $font-sans;
+
+  &:hover {
+    border-color: $color-accent;
+    background: $color-accent-soft;
+  }
+}
+
+.scanIcon {
+  font-size: 2rem;
+}
+
+.scanHint {
+  font-size: $text-xs;
+  color: $color-text-muted;
+}
+
+.or {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  font-size: $text-sm;
+  color: $color-text-muted;
+
+  span {
+    position: relative;
+    z-index: 1;
+    background: $color-bg;
+    padding: 0 $space-3;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: $color-border;
+  }
+}
+
+.manualBtn {
+  font-size: $text-sm;
+  color: $color-accent;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: $font-sans;
+  font-weight: $weight-medium;
+  &:hover { text-decoration: underline; }
+}
+
+.scannerWrap {
+  width: 100%;
+  #qr-reader {
+    width: 100% !important;
+    border: none !important;
+  }
+}
+
+.manualForm {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.rollInput {
+  @include input-base;
+  font-size: $text-lg;
+  font-family: $font-mono;
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+
+// ── Shared ─────────────────────────────────────────────────────────
+.submitBtn {
+  width: 100%;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  font-size: $text-sm;
+  color: $color-text-muted;
+  cursor: pointer;
+  font-family: $font-sans;
+  text-align: center;
+  transition: $transition-fast;
+
+  &:hover { color: $color-text; }
+}
+
+.errorMsg {
+  padding: $space-3 $space-4;
+  background: $color-error-soft;
+  border: 1px solid color-mix(in srgb, $color-error 20%, transparent);
+  border-radius: $radius-md;
+  font-size: $text-sm;
+  color: $color-error;
+  font-weight: $weight-medium;
+}
+
+.loadingMsg {
+  font-size: $text-sm;
+  color: $color-text-muted;
+  text-align: center;
+}
+
+// ── Animations ─────────────────────────────────────────────────────
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60%  { transform: translateX(-4px); }
+  40%, 80%  { transform: translateX(4px); }
+}

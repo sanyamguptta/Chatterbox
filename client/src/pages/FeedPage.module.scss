@@ -1,0 +1,175 @@
+@use '../styles/variables' as *;
+
+.page {
+  max-width: $content-max-width;
+  margin: 0 auto;
+}
+
+.heading {
+  font-size: $text-xl;
+  font-weight: $weight-bold;
+  margin-bottom: $space-5;
+  color: $color-text;
+}
+
+.feed { width: 100%; }
+
+.postList {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.skeleton {
+  @include card;
+  height: 160px;
+  background: linear-gradient(90deg, $color-bg-muted 25%, $color-bg-soft 50%, $color-bg-muted 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.error {
+  padding: $space-3 $space-4;
+  background: $color-error-soft;
+  border: 1px solid color-mix(in srgb, $color-error 20%, transparent);
+  border-radius: $radius-md;
+  font-size: $text-sm;
+  color: $color-error;
+  font-weight: $weight-medium;
+  text-align: center;
+}
+
+.empty {
+  @include flex-center;
+  padding: $space-12;
+  color: $color-text-muted;
+  font-size: $text-sm;
+  border: 2px dashed $color-border;
+  border-radius: $radius-lg;
+}
+
+.loadMore {
+  @include flex-center;
+  margin-top: $space-6;
+}
+
+// ── Comment panel overlay ─────────────────────────────────────────
+.commentOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  @include flex-center;
+  padding: $space-4;
+  animation: fadeIn 0.15s ease;
+}
+
+.commentPanel {
+  @include card;
+  width: 100%;
+  max-width: 500px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: $shadow-xl;
+  animation: slideUp 0.2s ease;
+}
+
+.panelHeader {
+  @include flex-between;
+  padding: $space-4 $space-5;
+  border-bottom: 1px solid $color-border;
+
+  h3 {
+    font-size: $text-md;
+    font-weight: $weight-semibold;
+  }
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: $text-base;
+  color: $color-text-muted;
+  cursor: pointer;
+  padding: $space-1 $space-2;
+  border-radius: $radius-sm;
+  &:hover { background: $color-bg-muted; }
+}
+
+.postExcerpt {
+  padding: $space-4 $space-5;
+  border-bottom: 1px solid $color-border;
+  font-size: $text-sm;
+  color: $color-text-muted;
+  background: $color-bg-soft;
+}
+
+.commentList {
+  flex: 1;
+  overflow-y: auto;
+  padding: $space-4 $space-5;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.noComments {
+  font-size: $text-sm;
+  color: $color-text-muted;
+  text-align: center;
+  padding: $space-6;
+}
+
+.comment {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+}
+
+.commentAuthor {
+  font-size: $text-xs;
+  font-weight: $weight-semibold;
+  color: $color-accent-dark;
+}
+
+.commentText {
+  font-size: $text-sm;
+  color: $color-text;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.commentForm {
+  @include flex-start;
+  gap: $space-3;
+  padding: $space-4 $space-5;
+  border-top: 1px solid $color-border;
+}
+
+.commentInput {
+  @include input-base;
+  flex: 1;
+  font-size: $text-sm;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

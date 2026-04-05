@@ -1,0 +1,197 @@
+/* ================================================================
+   Chatterbox — Global Reset & Base Styles
+   ================================================================ */
+
+@use './_variables' as *;
+
+/* Import Inter from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── Design Tokens & Themes ───────────────────────────────────── */
+:root, :root[data-theme="light"] {
+  --color-bg: #ffffff;
+  --color-bg-soft: #F9FAFB;
+  --color-bg-muted: #F3F4F6;
+  --color-border: #E5E7EB;
+  --color-border-dark: #D1D5DB;
+
+  --color-text: #111111;
+  --color-text-muted: #6B7280;
+  --color-text-light: #9CA3AF;
+
+  --color-accent: #1D9E75;
+  --color-accent-dark: #178a65;
+  --color-accent-soft: #E6F7F2;
+  --color-accent-glow: rgba(29, 158, 117, 0.15);
+
+  --color-error: #EF4444;
+  --color-error-soft: #FEF2F2;
+  --color-warning: #F59E0B;
+  --color-success: #10B981;
+
+  --color-success-dark: #0f8f65;
+  --color-warning-dark: #b8770b;
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #000000;
+  --color-bg-soft: #111111;
+  --color-bg-muted: #1f1f1f;
+  --color-border: #333333;
+  --color-border-dark: #444444;
+
+  --color-text: #ffffff;
+  --color-text-muted: #a0a0a0;
+  --color-text-light: #777777;
+
+  --color-accent: #1D9E75;
+  --color-accent-dark: #20c997;
+  --color-accent-soft: #0b3d2b;
+  --color-accent-glow: rgba(29, 158, 117, 0.35);
+
+  --color-error: #ef4444;
+  --color-error-soft: #451b1b;
+  --color-warning: #f59e0b;
+  --color-success: #10b981;
+
+  --color-success-dark: #20c997;
+  --color-warning-dark: #fbbf24;
+}
+
+:root[data-theme="dark-grey"] {
+  --color-bg: #121212;
+  --color-bg-soft: #1e1e1e;
+  --color-bg-muted: #2d2d2d;
+  --color-border: #3d3d3d;
+  --color-border-dark: #4d4d4d;
+
+  --color-text: #f0f0f0;
+  --color-text-muted: #aaaaaa;
+  --color-text-light: #888888;
+
+  --color-accent: #1D9E75;
+  --color-accent-dark: #20c997;
+  --color-accent-soft: #123d2f;
+  --color-accent-glow: rgba(29, 158, 117, 0.25);
+
+  --color-error: #ef4444;
+  --color-error-soft: #3b1c1c;
+  --color-warning: #f59e0b;
+  --color-success: #10b981;
+
+  --color-success-dark: #20c997;
+  --color-warning-dark: #fbbf24;
+}
+
+/* ── Box Model Reset ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Base ────────────────────────────────────────────────────── */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: $font-sans;
+  font-size: $text-base;
+  color: $color-text;
+  background: $color-bg;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── Typography ──────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: $weight-semibold;
+  line-height: 1.3;
+  color: $color-text;
+}
+
+p { line-height: 1.7; }
+
+a {
+  color: $color-accent;
+  text-decoration: none;
+  transition: $transition-fast;
+  &:hover { opacity: 0.85; }
+}
+
+code, pre {
+  font-family: $font-mono;
+  font-size: $text-sm;
+}
+
+/* ── Layout Utilities ────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $space-4;
+}
+
+/* ── Scrollbar styling ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: $color-border-dark;
+  border-radius: $radius-full;
+  &:hover { background: $color-text-light; }
+}
+
+/* ── Focus visible ───────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid $color-accent;
+  outline-offset: 2px;
+}
+
+/* ── Image ───────────────────────────────────────────────────── */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Lists ───────────────────────────────────────────────────── */
+ul, ol { list-style: none; }
+
+/* ── Form base resets ────────────────────────────────────────── */
+button { cursor: pointer; font-family: inherit; }
+input, textarea, select { font-family: inherit; }
+
+/* ── Transition for page-level elements ──────────────────────── */
+.page-enter {
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ── Toast / Error global ─────────────────────────────────────── */
+.toast-error {
+  background: $color-error-soft;
+  color: $color-error;
+  border: 1px solid color-mix(in srgb, $color-error 20%, transparent);
+  border-radius: $radius-md;
+  padding: $space-3 $space-4;
+  font-size: $text-sm;
+  font-weight: $weight-medium;
+}

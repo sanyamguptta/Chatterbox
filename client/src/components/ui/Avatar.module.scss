@@ -1,0 +1,21 @@
+@use '../../styles/variables' as *;
+
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+
+  &.sm  { width: 28px;  height: 28px;  font-size: $text-xs; }
+  &.md  { width: 36px;  height: 36px;  font-size: $text-sm; }
+  &.lg  { width: 48px;  height: 48px;  font-size: $text-base; }
+  &.xl  { width: 72px;  height: 72px;  font-size: $text-xl; }
+}
+
+.fallback {
+  @include flex-center;
+  background: $color-accent;
+  color: #fff;
+  font-weight: $weight-semibold;
+  user-select: none;
+  letter-spacing: 0.03em;
+}

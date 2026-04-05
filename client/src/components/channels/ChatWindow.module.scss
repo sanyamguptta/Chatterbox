@@ -1,0 +1,85 @@
+@use '../../styles/variables' as *;
+
+.window {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - #{$navbar-height} - #{$space-12});
+  min-height: 400px;
+}
+
+.header {
+  padding: $space-4 $space-5;
+  border-bottom: 1px solid $color-border;
+  flex-shrink: 0;
+}
+
+.channelName {
+  font-size: $text-md;
+  font-weight: $weight-semibold;
+  color: $color-text;
+  margin-bottom: $space-1;
+}
+
+.channelDesc {
+  font-size: $text-xs;
+  color: $color-text-muted;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: $space-5;
+  display: flex;
+  flex-direction: column;
+}
+
+.loadingMsg {
+  font-size: $text-sm;
+  color: $color-text-muted;
+  text-align: center;
+  padding: $space-8;
+}
+
+.inputRow {
+  @include flex-start;
+  gap: $space-3;
+  padding: $space-4 $space-5;
+  border-top: 1px solid $color-border;
+  flex-shrink: 0;
+}
+
+.textInput {
+  @include input-base;
+  flex: 1;
+  font-size: $text-sm;
+}
+
+.sendBtn {
+  @include btn-base;
+  background: $color-accent;
+  color: #fff;
+  padding: $space-3 $space-5;
+  font-size: $text-sm;
+  border-radius: $radius-md;
+
+  &:hover:not(:disabled) {
+    background: $color-accent-dark;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.empty {
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-3;
+  height: 100%;
+  min-height: 300px;
+  color: $color-text-muted;
+  font-size: $text-sm;
+
+  span { font-size: 2rem; }
+}

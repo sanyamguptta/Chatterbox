@@ -1,0 +1,134 @@
+@use '../styles/variables' as *;
+
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: $space-6;
+}
+
+.heading {
+  font-size: $text-2xl;
+  font-weight: $weight-bold;
+  color: $color-text;
+  margin-bottom: $space-2;
+}
+
+.subhead {
+  font-size: $text-sm;
+  color: $color-text-muted;
+}
+
+// ── Year tabs ─────────────────────────────────────────────────────
+.yearTabs {
+  display: flex;
+  gap: $space-2;
+  margin-bottom: $space-5;
+  flex-wrap: wrap;
+}
+
+.yearTab {
+  @include btn-base;
+  background: $color-bg-muted;
+  color: $color-text-muted;
+  border: 1px solid $color-border;
+  font-size: $text-sm;
+
+  &:hover { background: $color-bg-soft; color: $color-text; }
+
+  &.activeYear {
+    background: $color-accent;
+    color: #fff;
+    border-color: $color-accent;
+  }
+}
+
+// ── Intro ─────────────────────────────────────────────────────────
+.intro {
+  background: $color-accent-soft;
+  border: 1px solid color-mix(in srgb, $color-accent 20%, transparent);
+  border-radius: $radius-md;
+  padding: $space-4 $space-5;
+  font-size: $text-sm;
+  color: $color-accent-dark;
+  margin-bottom: $space-6;
+  font-weight: $weight-medium;
+}
+
+// ── Tracks ────────────────────────────────────────────────────────
+.tracks {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+}
+
+.track {
+  @include card;
+  overflow: hidden;
+}
+
+.trackHeader {
+  @include flex-start;
+  gap: $space-3;
+  padding: $space-4 $space-5;
+  border-bottom: 1px solid $color-border;
+  background: $color-bg-soft;
+}
+
+.trackIcon {
+  font-size: 1.3rem;
+}
+
+.trackTitle {
+  font-size: $text-md;
+  font-weight: $weight-semibold;
+  color: $color-text;
+}
+
+// ── Items ─────────────────────────────────────────────────────────
+.items {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  @include flex-between;
+  padding: $space-4 $space-5;
+  border-bottom: 1px solid $color-border;
+  gap: $space-4;
+  transition: $transition-fast;
+
+  &:last-child { border-bottom: none; }
+  &:hover { background: $color-bg-soft; }
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  min-width: 0;
+}
+
+.itemTopic {
+  font-size: $text-sm;
+  font-weight: $weight-semibold;
+  color: $color-text;
+}
+
+.itemDesc {
+  font-size: $text-xs;
+  color: $color-text-muted;
+}
+
+.itemLink {
+  font-size: $text-xs;
+  font-weight: $weight-semibold;
+  color: $color-accent;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: $transition-fast;
+
+  &:hover { opacity: 0.8; text-decoration: underline; }
+}
