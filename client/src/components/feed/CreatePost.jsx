@@ -47,7 +47,7 @@ export default function CreatePost({ onPostCreated }) {
   };
 
   return (
-    <form className={styles.card} onSubmit={handleSubmit} encType="multipart/form-data">
+    <form className={styles.card} data-feed-card onSubmit={handleSubmit} encType="multipart/form-data">
       <textarea
         className={styles.textarea}
         placeholder="What are you building? Share a project, tip, or question…"

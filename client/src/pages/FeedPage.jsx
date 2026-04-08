@@ -1,12 +1,15 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useLayoutEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 import Layout from '../components/layout/Layout';
 import PostCard from '../components/feed/PostCard';
 import CreatePost from '../components/feed/CreatePost';
 import Button from '../components/ui/Button';
 import api from '../api/axios';
+import { useAuth } from '../hooks/useAuth';
 import styles from './FeedPage.module.scss';
 
 export default function FeedPage() {
+  const { user } = useAuth();
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
@@ -17,6 +20,9 @@ export default function FeedPage() {
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState('');
   const [commentLoading, setCommentLoading] = useState(false);
+  const pageRef = useRef(null);
+  const overlayRef = useRef(null);
+  const panelRef = useRef(null);
 
   const fetchPosts = useCallback(async (pageNum = 1, append = false) => {
     if (append) setLoadingMore(true);
@@ -43,8 +49,79 @@ export default function FeedPage() {
     fetchPosts(1);
   }, [fetchPosts]);
 
+  useLayoutEffect(() => {
+    if (!pageRef.current || loading) return undefined;
+
+    const ctx = gsap.context(() => {
+      const cards = gsap.utils.toArray('[data-feed-card]');
+
+      gsap.fromTo(
+        '[data-feed-hero]',
+        { opacity: 0, y: 28 },
+        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }
+      );
+
+      gsap.fromTo(
+        cards,
+        { opacity: 0, y: 26, scale: 0.985 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.55,
+          stagger: 0.08,
+          delay: 0.12,
+          ease: 'power3.out',
+        }
+      );
+    }, pageRef);
+
+    return () => ctx.revert();
+  }, [loading, error, posts.length]);
+
+  useEffect(() => {
+    if (!selectedPost || !overlayRef.current || !panelRef.current) return undefined;
+
+    const tl = gsap.timeline();
+    tl.fromTo(
+      overlayRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.18, ease: 'power2.out' }
+    ).fromTo(
+      panelRef.current,
+      { opacity: 0, y: 28, scale: 0.97 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.34, ease: 'power3.out' },
+      0
+    );
+
+    return () => tl.kill();
+  }, [selectedPost]);
+
   const handlePostCreated = (newPost) => {
     setPosts(prev => [newPost, ...prev]);
+  };
+
+  const closeComments = () => {
+    if (!overlayRef.current || !panelRef.current) {
+      setSelectedPost(null);
+      return;
+    }
+
+    gsap.timeline({
+      onComplete: () => setSelectedPost(null),
+    })
+      .to(panelRef.current, {
+        opacity: 0,
+        y: 18,
+        scale: 0.98,
+        duration: 0.22,
+        ease: 'power2.in',
+      })
+      .to(
+        overlayRef.current,
+        { opacity: 0, duration: 0.18, ease: 'power2.in' },
+        0
+      );
   };
 
   const handleDelete = async (postId) => {
@@ -83,9 +160,27 @@ export default function FeedPage() {
 
   return (
     <Layout>
-      <div className={styles.page}>
+      <div className={styles.page} ref={pageRef}>
         <div className={styles.feed}>
-          <h1 className={styles.heading}>Developer Feed</h1>
+          <section className={styles.hero} data-feed-hero>
+            <div>
+              <p className={styles.eyebrow}>Home</p>
+              <h1 className={styles.heading}>Welcome back, {user?.display_name?.split(' ')[0] || 'builder'}.</h1>
+              <p className={styles.subheading}>
+                Share progress, ask for feedback, and keep your campus dev circle moving forward.
+              </p>
+            </div>
+            <div className={styles.heroStats}>
+              <div className={styles.statPill}>
+                <strong>{posts.length}</strong>
+                <span>posts loaded</span>
+              </div>
+              <div className={styles.statPill}>
+                <strong>{hasMore ? `${page}+` : page}</strong>
+                <span>pages explored</span>
+              </div>
+            </div>
+          </section>
 
           <CreatePost onPostCreated={handlePostCreated} />
 
@@ -127,11 +222,11 @@ export default function FeedPage() {
 
         {/* Comment drawer */}
         {selectedPost && (
-          <div className={styles.commentOverlay} onClick={() => setSelectedPost(null)}>
-            <div className={styles.commentPanel} onClick={e => e.stopPropagation()}>
+          <div className={styles.commentOverlay} ref={overlayRef} onClick={closeComments}>
+            <div className={styles.commentPanel} ref={panelRef} onClick={e => e.stopPropagation()}>
               <div className={styles.panelHeader}>
                 <h3>Comments</h3>
-                <button className={styles.closeBtn} onClick={() => setSelectedPost(null)}>✕</button>
+                <button className={styles.closeBtn} onClick={closeComments}>✕</button>
               </div>
               <div className={styles.postExcerpt}>
                 <p>{selectedPost.content.slice(0, 120)}{selectedPost.content.length > 120 ? '…' : ''}</p>

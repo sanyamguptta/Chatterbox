@@ -2,33 +2,178 @@
 
 .page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f0fdf8 0%, #ffffff 60%);
-  @include flex-center;
-  padding: $space-6 $space-4;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, $color-accent 16%, transparent) 0%, transparent 34%),
+    linear-gradient(135deg, color-mix(in srgb, $color-accent-soft 70%, $color-bg 30%) 0%, $color-bg 52%, color-mix(in srgb, $color-bg-soft 55%, #dbeafe 45%) 100%);
+  padding: $space-12 $space-4;
+}
+
+.bgMesh {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(10px);
+  opacity: 0.65;
+}
+
+.orbOne {
+  width: 18rem;
+  height: 18rem;
+  top: 10%;
+  left: -3rem;
+  background: color-mix(in srgb, $color-accent 34%, #ffffff 66%);
+}
+
+.orbTwo {
+  width: 12rem;
+  height: 12rem;
+  right: 8%;
+  top: 16%;
+  background: color-mix(in srgb, #60a5fa 34%, #ffffff 66%);
+}
+
+.orbThree {
+  width: 20rem;
+  height: 20rem;
+  right: -4rem;
+  bottom: -5rem;
+  background: color-mix(in srgb, #f59e0b 22%, #ffffff 78%);
+}
+
+.themeDock {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+}
+
+.shell {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  min-height: calc(100vh - 6rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(360px, 460px);
+  gap: $space-8;
+  align-items: center;
+}
+
+.storyPanel {
+  color: $color-text;
+  padding: $space-8 0;
+}
+
+.storyEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-2 $space-3;
+  margin-bottom: $space-5;
+  border: 1px solid color-mix(in srgb, $color-accent 18%, transparent);
+  border-radius: $radius-full;
+  background: color-mix(in srgb, $color-bg 72%, transparent);
+  backdrop-filter: blur(10px);
+  font-size: $text-xs;
+  font-weight: $weight-semibold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.storyTitle {
+  max-width: 11ch;
+  margin: 0 0 $space-4;
+  font-size: clamp(2.8rem, 5vw, 4.7rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+
+.storyText {
+  max-width: 34rem;
+  margin: 0 0 $space-6;
+  font-size: $text-md;
+  line-height: 1.7;
+  color: $color-text-muted;
+}
+
+.storyStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $space-4;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  padding: $space-4;
+  border: 1px solid color-mix(in srgb, $color-border 72%, transparent);
+  border-radius: $radius-xl;
+  background: color-mix(in srgb, $color-bg 78%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow: $shadow-sm;
+
+  strong {
+    font-size: $text-sm;
+    font-weight: $weight-semibold;
+  }
+
+  span {
+    font-size: $text-xs;
+    line-height: 1.6;
+    color: $color-text-muted;
+  }
 }
 
 .card {
-  @include card;
+  position: relative;
+  overflow: hidden;
   width: 100%;
-  max-width: 440px;
   padding: $space-8;
-  box-shadow: $shadow-xl;
+  border-radius: 28px;
+  border: 1px solid color-mix(in srgb, $color-border 70%, transparent);
+  background: color-mix(in srgb, $color-bg 86%, transparent);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.14);
 
   @include responsive(sm) {
     padding: $space-6 $space-5;
   }
 }
 
-// ── Brand ────────────────────────────────────────────────────────
+.cardGlow {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 10rem;
+  background: linear-gradient(135deg, color-mix(in srgb, $color-accent 18%, transparent), transparent 75%);
+  pointer-events: none;
+}
+
 .brand {
-  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: $space-3;
   margin-bottom: $space-6;
 }
 
 .brandIcon {
-  font-size: 2rem;
-  display: block;
-  margin-bottom: $space-2;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 16px;
+  @include flex-center;
+  background: linear-gradient(135deg, $color-accent, color-mix(in srgb, $color-accent 30%, #0f172a 70%));
+  color: #fff;
+  font-size: 1.45rem;
+  box-shadow: 0 12px 24px color-mix(in srgb, $color-accent 28%, transparent);
 }
 
 .brandName {
@@ -36,21 +181,23 @@
   font-weight: $weight-bold;
   letter-spacing: -0.03em;
   color: $color-text;
-  margin-bottom: $space-1;
+  margin: 0 0 $space-1;
 }
 
 .brandTag {
   font-size: $text-xs;
   color: $color-text-muted;
   font-weight: $weight-medium;
+  margin: 0;
 }
 
-// ── Mode tabs ────────────────────────────────────────────────────
 .modeTabs {
+  position: relative;
   display: flex;
-  background: $color-bg-muted;
-  border-radius: $radius-md;
-  padding: 3px;
+  background: color-mix(in srgb, $color-bg-soft 78%, transparent);
+  border: 1px solid color-mix(in srgb, $color-border 70%, transparent);
+  border-radius: $radius-xl;
+  padding: 4px;
   margin-bottom: $space-6;
 }
 
@@ -59,7 +206,7 @@
   padding: $space-2 $space-4;
   background: none;
   border: none;
-  border-radius: calc(#{$radius-md} - 2px);
+  border-radius: calc(#{$radius-xl} - 4px);
   font-size: $text-sm;
   font-weight: $weight-medium;
   color: $color-text-muted;
@@ -70,14 +217,13 @@
   &.activeTab {
     background: $color-bg;
     color: $color-text;
-    box-shadow: $shadow-sm;
+    box-shadow: 0 10px 18px rgba(15, 23, 42, 0.08);
   }
 }
 
-// ── Progress ──────────────────────────────────────────────────────
 .progressWrap {
-  height: 3px;
-  background: $color-border;
+  height: 6px;
+  background: color-mix(in srgb, $color-border 75%, transparent);
   border-radius: $radius-full;
   margin-bottom: $space-6;
   overflow: hidden;
@@ -85,17 +231,21 @@
 
 .progressBar {
   height: 100%;
-  background: $color-accent;
-  border-radius: $radius-full;
-  transition: width 0.3s ease;
+  width: 0;
+  background: linear-gradient(90deg, $color-accent, color-mix(in srgb, #60a5fa 55%, $color-accent 45%));
+  border-radius: inherit;
 }
 
-// ── Step area ─────────────────────────────────────────────────────
 .stepArea {
-  animation: fadeIn 0.2s ease;
+  position: relative;
+  z-index: 1;
 }
 
-// ── Success state ─────────────────────────────────────────────────
+.successPanel {
+  position: relative;
+  z-index: 1;
+}
+
 .successIcon {
   font-size: 3rem;
   text-align: center;
@@ -120,12 +270,54 @@
 .switchBtn {
   @include btn-base;
   width: 100%;
-  background: $color-accent;
+  background: linear-gradient(135deg, $color-accent, color-mix(in srgb, $color-accent-dark 72%, #0f172a 28%));
   color: #fff;
-  &:hover { background: $color-accent-dark; }
+  box-shadow: 0 18px 35px color-mix(in srgb, $color-accent 24%, transparent);
+
+  &:hover {
+    transform: translateY(-1px);
+  }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+@include responsive(lg) {
+  .shell {
+    grid-template-columns: 1fr;
+    max-width: 720px;
+    gap: $space-6;
+  }
+
+  .storyPanel {
+    padding-bottom: 0;
+  }
+
+  .storyTitle,
+  .storyText {
+    max-width: none;
+  }
+}
+
+@include responsive(md) {
+  .page {
+    padding-top: $space-16;
+  }
+
+  .storyStats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@include responsive(sm) {
+  .themeDock {
+    top: 12px;
+    right: 12px;
+  }
+
+  .page {
+    padding-left: $space-3;
+    padding-right: $space-3;
+  }
+
+  .storyTitle {
+    font-size: 2.4rem;
+  }
 }

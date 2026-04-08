@@ -5,11 +5,72 @@
   margin: 0 auto;
 }
 
+.hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: $space-5;
+  padding: $space-6;
+  margin-bottom: $space-6;
+  border: 1px solid color-mix(in srgb, $color-border 72%, transparent);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, $color-accent 14%, transparent) 0%, transparent 28%),
+    linear-gradient(135deg, color-mix(in srgb, $color-bg-soft 72%, $color-bg 28%) 0%, $color-bg 100%);
+  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.08);
+}
+
+.eyebrow {
+  margin: 0 0 $space-2;
+  font-size: $text-xs;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $color-accent;
+  font-weight: $weight-semibold;
+}
+
 .heading {
-  font-size: $text-xl;
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 2.75rem);
   font-weight: $weight-bold;
-  margin-bottom: $space-5;
   color: $color-text;
+  letter-spacing: -0.04em;
+}
+
+.subheading {
+  margin: $space-3 0 0;
+  max-width: 34rem;
+  font-size: $text-sm;
+  line-height: 1.8;
+  color: $color-text-muted;
+}
+
+.heroStats {
+  display: flex;
+  gap: $space-3;
+}
+
+.statPill {
+  min-width: 112px;
+  padding: $space-4;
+  border-radius: $radius-xl;
+  background: color-mix(in srgb, $color-bg 84%, transparent);
+  border: 1px solid color-mix(in srgb, $color-border 75%, transparent);
+  box-shadow: $shadow-sm;
+
+  strong {
+    display: block;
+    margin-bottom: $space-1;
+    font-size: $text-lg;
+    line-height: 1;
+  }
+
+  span {
+    font-size: $text-xs;
+    color: $color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
 }
 
 .feed { width: 100%; }
@@ -78,7 +139,7 @@
   display: flex;
   flex-direction: column;
   box-shadow: $shadow-xl;
-  animation: slideUp 0.2s ease;
+  border-radius: 24px;
 }
 
 .panelHeader {
@@ -164,12 +225,33 @@
   100% { background-position:  200% 0; }
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+@include responsive(md) {
+  .hero {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .heroStats {
+    width: 100%;
+  }
+
+  .statPill {
+    flex: 1;
+  }
+}
+
+@include responsive(sm) {
+  .hero {
+    padding: $space-5;
+    border-radius: 22px;
+  }
+
+  .heroStats {
+    flex-direction: column;
+  }
 }

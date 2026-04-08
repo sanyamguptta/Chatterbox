@@ -36,7 +36,7 @@ export default function PostCard({ post, onDelete, onCommentOpen }) {
   const isOwner = user?.id === Number(post.user_id);
 
   return (
-    <article className={styles.card}>
+    <article className={styles.card} data-feed-card>
       {/* Header */}
       <div className={styles.header}>
         <Avatar name={post.display_name} src={getFullImageUrl(post.avatar_url)} size="md" />
